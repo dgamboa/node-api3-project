@@ -26,10 +26,16 @@ router.post('/', validateUser, async (req, res, next) => {
   } catch(err) { next(err) }
 });
 
-router.put('/:id', validateUserId, validateUser, (req, res) => {
-  // RETURN THE FRESHLY UPDATED USER OBJECT
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+router.put('/:id', validateUserId, validateUser, async (req, res, next) => {
+  const { id } = req.params;
+  const userToUpdate = req.body;
+
+  try {
+    const updatedUser = await Users.update(id, userToUpdate);
+    updatedUser
+      ? res.status(200).json({ id, name: userToUpdate.name })
+      : res.status(500).json({ message: "update failed, please try again" })
+  } catch(err) { next(err) }
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
@@ -52,6 +58,14 @@ router.post('/:id/posts', validateUserId, validatePost, async (req, res, next) =
     res.status(201).json(newPost);
   } catch(err) { next(err) }
 });
+
+router.use((err, req, res, next) => { // eslint-disable-line
+  res.status(500).json({
+    message: err.message,
+    stack: err.stack,
+    custom: "Something went wrong in the users router"
+  })
+})
 
 // do not forget to export the router
 module.exports = router;
