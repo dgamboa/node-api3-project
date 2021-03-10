@@ -33,7 +33,7 @@ router.put('/:id', validateUserId, validateUser, async (req, res, next) => {
   try {
     const updatedUser = await Users.update(id, userToUpdate);
     updatedUser
-      ? res.status(200).json({ id, name: userToUpdate.name })
+      ? res.status(200).json({ id: parseInt(id), name: userToUpdate.name })
       : res.status(500).json({ message: "update failed, please try again" })
   } catch(err) { next(err) }
 });
