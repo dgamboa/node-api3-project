@@ -38,14 +38,23 @@ router.put('/:id', validateUserId, validateUser, async (req, res, next) => {
   } catch(err) { next(err) }
 });
 
-router.delete('/:id', validateUserId, (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
+router.delete('/:id', validateUserId, async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id)
+  try {
+    const userToDelete = await Users.getById(id);
+    const deletedUser = await Users.remove(id);
+    deletedUser
+      ? res.json(userToDelete)
+      : res.status(500).json({ message: "deletion failed, please try again" })
+  } catch(err) { next(err) }
 });
 
-router.get('/:id/posts', validateUserId, (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
+router.get('/:id/posts', validateUserId, async (req, res, next) => {
+  try {
+    const posts = await Users.getUserPosts(req.params.id);
+    res.json(posts);
+  } catch(err) { next(err) }
 });
 
 router.post('/:id/posts', validateUserId, validatePost, async (req, res, next) => {
