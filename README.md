@@ -26,9 +26,9 @@ There are two possible ways to submit your project. Your instructor should have 
 ### Task 2: Minimum Viable Product
 
 - [x] Wire the application together completing `api/server.js` and `index.js`.
-- [ ] Write four custom middleware functions detailed below, in `api/middleware/middleware.js`.
-- Use the custom middlewares in their appropriate places in the application (specific endpoints, entire routes or globally).
-- There are endpoints in `users-router.js` to retrieve the list of `posts` by a `user` and to store a new `post` for a `user`.
+- [x] Write four custom middleware functions detailed below, in `api/middleware/middleware.js`.
+- [x] Use the custom middlewares in their appropriate places in the application (specific endpoints, entire routes or globally).
+- [x] There are endpoints in `users-router.js` to retrieve the list of `posts` by a `user` and to store a new `post` for a `user`.
 
 #### Custom Middleware Requirements
 
